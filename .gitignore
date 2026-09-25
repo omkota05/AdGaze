@@ -4,3 +4,4 @@ __pycache__/
 DeepGaze/
 *.npy
 overlay_output.png
+overlay_output_*.png
