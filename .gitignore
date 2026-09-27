@@ -8,3 +8,4 @@ overlay_output_*.png
 .DS_Store
 test_images/*
 !test_images/test_image.jpg
+test_images_compare/*.png

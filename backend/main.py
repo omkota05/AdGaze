@@ -1,5 +1,7 @@
 import base64
+import hashlib
 import io
+from collections import OrderedDict
 from contextlib import asynccontextmanager
 from typing import Literal
 
@@ -15,6 +17,9 @@ from backend.model import SaliencyModel
 
 OVERLAY_STYLES = {"jet": make_overlay, "glow": make_glow_overlay}
 Style = Literal["jet", "glow"]
+
+DENSITY_CACHE_SIZE = 8
+_density_cache = OrderedDict()
 
 saliency = None
 
@@ -35,11 +40,28 @@ def health():
 
 
 async def read_frame(image: UploadFile):
+    """Return the upload as (RGB array, raw bytes); the bytes key the density cache."""
+    raw = await image.read()
     try:
-        pil_image = Image.open(io.BytesIO(await image.read())).convert("RGB")
+        pil_image = Image.open(io.BytesIO(raw)).convert("RGB")
     except UnidentifiedImageError:
         raise HTTPException(status_code=400, detail="uploaded file is not a readable image")
-    return np.array(pil_image)
+    return np.array(pil_image), raw
+
+
+def density_for(raw, frame):
+    """Reuse the model output for an image already scored, so re-boxing is cheap."""
+    key = hashlib.sha256(raw).hexdigest()
+
+    if key in _density_cache:
+        _density_cache.move_to_end(key)
+        return _density_cache[key]
+
+    log_density = saliency.predict(frame)
+    _density_cache[key] = log_density
+    if len(_density_cache) > DENSITY_CACHE_SIZE:
+        _density_cache.popitem(last=False)
+    return log_density
 
 
 def encode_overlay(log_density, frame, style="jet"):
@@ -59,8 +81,8 @@ async def predict(
     y1: int | None = Form(None),
     style: Style = "jet",
 ):
-    frame = await read_frame(image)
-    log_density = saliency.predict(frame)
+    frame, raw = await read_frame(image)
+    log_density = density_for(raw, frame)
 
     box = (x0, y0, x1, y1)
     prominence = on_target_salience = None
@@ -82,6 +104,6 @@ async def predict(
 
 @app.post("/overlay", response_class=Response, responses={200: {"content": {"image/png": {}}}})
 async def overlay(image: UploadFile = File(...), style: Style = "jet"):
-    frame = await read_frame(image)
-    log_density = saliency.predict(frame)
+    frame, raw = await read_frame(image)
+    log_density = density_for(raw, frame)
     return Response(content=encode_overlay(log_density, frame, style), media_type="image/png")
