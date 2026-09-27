@@ -3,7 +3,7 @@ import io
 
 import requests
 import streamlit as st
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from streamlit_drawable_canvas import boxes_to_drawing, st_canvas
 
 PREDICT_URL = "http://127.0.0.1:8000/predict"
@@ -11,6 +11,9 @@ DISPLAY_WIDTH = 520
 IMAGE_TYPES = ["jpg", "jpeg", "png"]
 BOX_STROKE = "#00FF00"
 BOX_FILL = "rgba(0, 255, 0, 0.15)"
+EXPORT_WIDTH = 700
+EXPORT_HEADER = 86
+FONT_PATHS = ["/System/Library/Fonts/Helvetica.ttc", "/Library/Fonts/Arial.ttf"]
 
 st.set_page_config(page_title="AdGaze", layout="wide")
 st.title("AdGaze")
@@ -106,6 +109,84 @@ def show_box_preview(image, box, key):
         height=size[1],
         key=key,
     )
+
+
+def load_font(size):
+    for path in FONT_PATHS:
+        try:
+            return ImageFont.truetype(path, size)
+        except OSError:
+            continue
+    return ImageFont.load_default()
+
+
+def export_panel(payload, box, title):
+    """Render one labeled panel: the overlay with its box outlined and its metrics above."""
+    image = Image.open(io.BytesIO(base64.b64decode(payload["overlay_png_base64"]))).convert("RGB")
+    if box:
+        draw_on_image = ImageDraw.Draw(image)
+        draw_on_image.rectangle(box, outline=BOX_STROKE, width=max(2, round(image.width / 250)))
+
+    image = image.resize(
+        (EXPORT_WIDTH, round(image.height * EXPORT_WIDTH / image.width)), Image.LANCZOS
+    )
+    panel = Image.new("RGB", (EXPORT_WIDTH, image.height + EXPORT_HEADER), "white")
+    panel.paste(image, (0, EXPORT_HEADER))
+
+    if box:
+        summary = (
+            f"{payload['attention_multiplier']:.2f}x multiplier"
+            f"    {payload['attention_share']:.1%} share"
+        )
+    else:
+        summary = "no element scored"
+
+    draw = ImageDraw.Draw(panel)
+    draw.text((14, 12), title, fill="black", font=load_font(30))
+    draw.text((14, 50), summary, fill="#333333", font=load_font(24))
+    return panel
+
+
+def build_comparison_png(result_a, box_a, result_b, box_b):
+    """Compose the two panels into one shareable image."""
+    panels = [
+        export_panel(result_a, box_a, "BEFORE"),
+        export_panel(result_b, box_b, "AFTER"),
+    ]
+    gap = 16
+    sheet = Image.new(
+        "RGB",
+        (sum(panel.width for panel in panels) + gap, max(panel.height for panel in panels)),
+        "white",
+    )
+    offset = 0
+    for panel in panels:
+        sheet.paste(panel, (offset, 0))
+        offset += panel.width + gap
+
+    buffer = io.BytesIO()
+    sheet.save(buffer, format="PNG")
+    return buffer.getvalue()
+
+
+def box_comparison_note(box_a, box_b):
+    """Flag a box-area change, which distorts the delta; a pure move is valid methodology."""
+    width_a, height_a = box_a[2] - box_a[0], box_a[3] - box_a[1]
+    width_b, height_b = box_b[2] - box_b[0], box_b[3] - box_b[1]
+
+    if (width_a, height_a) != (width_b, height_b):
+        return "warning", (
+            f"Image B's box is {width_b}x{height_b} but image A's is {width_a}x{height_a}, "
+            f"a {(width_b * height_b) / (width_a * height_a):.2f}x change in area. Attention share scales "
+            "with box area, so part of that delta is the box rather than the creative. Attention "
+            "multiplier is area-normalized and stays meaningful."
+        )
+    if box_a != box_b:
+        return "caption", (
+            "The boxes are the same size in different places, which is the right setup for testing a "
+            "moved element. Both scores stay comparable."
+        )
+    return None
 
 
 def show_result(title, payload, box, baseline=None):
@@ -219,17 +300,47 @@ if st.button("Analyze", type="primary"):
         st.error(f"Backend returned {error.response.status_code}: {error.response.text}")
         st.stop()
 
+    # Held in session state so downloading a result does not wipe it on the rerun.
+    st.session_state.results = {
+        "a": result_a,
+        "b": result_b,
+        "box_a": box_a,
+        "box_b": box_b,
+    }
+
+results = st.session_state.get("results")
+if results:
+    result_a, result_b = results["a"], results["b"]
+    scored_a, scored_b = results["box_a"], results["box_b"]
+
     if result_b is None:
-        show_result("Result", result_a, box_a)
+        show_result("Result", result_a, scored_a)
+        st.download_button(
+            "Download overlay",
+            data=base64.b64decode(result_a["overlay_png_base64"]),
+            file_name="adgaze_overlay.png",
+            mime="image/png",
+        )
     else:
         result_columns = st.columns(2)
         with result_columns[0]:
-            show_result("Image A (before)", result_a, box_a)
+            show_result("Image A (before)", result_a, scored_a)
         with result_columns[1]:
-            comparable = box_a is not None and box_b is not None
-            show_result("Image B (after)", result_b, box_b, baseline=result_a if comparable else None)
-
-        if box_a and box_b and box_a != box_b:
-            st.caption(
-                "The two boxes differ, so part of any delta comes from the box itself, not the creative."
+            comparable = scored_a is not None and scored_b is not None
+            show_result(
+                "Image B (after)", result_b, scored_b, baseline=result_a if comparable else None
             )
+
+        if scored_a and scored_b:
+            note = box_comparison_note(scored_a, scored_b)
+            if note:
+                level, text = note
+                (st.warning if level == "warning" else st.caption)(text)
+
+        st.download_button(
+            "Download comparison",
+            data=build_comparison_png(result_a, scored_a, result_b, scored_b),
+            file_name="adgaze_comparison.png",
+            mime="image/png",
+            help="A side by side image with both overlays, boxes, and metrics.",
+        )

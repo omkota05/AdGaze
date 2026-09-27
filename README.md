@@ -241,7 +241,13 @@ coordinates for B and previews them as a read-only box on B.
 
 Keep that box shared when the element stays put and the design around it changes.
 Uncheck it when the element itself moved, as in the demo above, so you can follow
-it, and keep the two boxes the same size so area can't skew the result.
+it, and keep the two boxes the same size so area can't skew the result. The app
+checks this for you: moving a box of the same size is treated as valid, while
+changing its area raises a warning, since attention share scales with area.
+
+**Download comparison** saves the side-by-side result as a single PNG with both
+overlays, both boxes, and both sets of metrics. With one image, the button saves
+the overlay on its own.
 
 ---
 
