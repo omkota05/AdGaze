@@ -14,20 +14,40 @@ visual attention that element captures.
 ## What it found on a real ad
 
 Below is a Times Square photo of a Nike billboard, before and after moving the
-"Just do it." copy up by 128 pixels. Both panels use the `jet` overlay style, and
-the green box marks the scored region in each image.
+"Just do it." copy up by 128 pixels so it clears the traffic light obstructing it.
+Both panels use the `jet` overlay style, and the green box is the scored region —
+the same box on both images, since the billboard itself didn't move.
 
-![Before and after, jet overlay](docs/before_after_jet.png)
+![Before and after, whole billboard](docs/before_after_billboard.jpg)
+
+**The billboard as a whole:**
 
 | | Attention Multiplier | Attention Share |
 |---|---|---|
-| **Before** — copy low, behind the traffic light | 2.74x | 1.87% |
-| **After** — copy moved up, unobstructed | **7.75x** | **5.29%** |
+| **Before** — copy behind the traffic light | 3.15x | 43.7% |
+| **After** — copy moved up, unobstructed | **3.61x** | **50.0%** |
+| Change | **+14.6%** | **+6.36 points** |
+
+One edit took the billboard from capturing 43.7% of all the attention in the
+street scene to **50.0%** — it now owns half the frame. Look closely at the AFTER
+panel and you can see a new warm hotspot appear on the relocated copy, inside the
+billboard, where BEFORE there was none.
+
+### Where the gain came from
+
+Scoring a tight box on the copy itself — following it to its new position, keeping
+the box size identical — shows the mechanism:
+
+![Before and after, the copy itself](docs/before_after_copy.jpg)
+
+| | Attention Multiplier | Attention Share |
+|---|---|---|
+| **Before** — occluded | 2.74x | 1.87% |
+| **After** — clear | **7.75x** | **5.29%** |
 | Change | **+183%** | **+3.42 points** |
 
-In the BEFORE panel the box sits in cold blue: the model predicts almost nobody
-looks there. In AFTER the same copy lands inside the warm band running across the
-athlete's torso.
+In BEFORE the box sits in cold blue: the model predicts almost nobody reads the
+copy. In AFTER it lands inside the warm band across the athlete's torso.
 
 ### Why the gain is real, and not just "higher on the image"
 
@@ -364,6 +384,7 @@ For `test_images/test_image.jpg` (1112×1454), useful for verifying a fresh setu
 
 | Region | Box (x0, y0, x1, y1) | Multiplier | Share |
 |---|---|---|---|
+| Whole billboard | 295, 268, 618, 962 | 3.15x | 43.68% |
 | Athlete's face | 320, 340, 540, 560 | 5.39x | 16.15% |
 | Subway storefront sign | 160, 1040, 470, 1100 | 5.96x | 6.85% |
 | "Just do it." (occluded) | 400, 895, 570, 960 | 2.74x | 1.87% |
