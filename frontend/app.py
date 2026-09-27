@@ -114,26 +114,26 @@ def show_result(title, payload, box, baseline=None):
     st.image(base64.b64decode(payload["overlay_png_base64"]), width="stretch")
 
     if box is None:
-        st.caption("No element selected, so no scores -- draw a box to get prominence and on-target salience.")
+        st.caption("No element selected, so no scores -- draw a box to get the attention multiplier and attention share.")
         return
 
-    prominence, on_target = payload["prominence"], payload["on_target_salience"]
-    prominence_delta = on_target_delta = None
+    multiplier, share = payload["attention_multiplier"], payload["attention_share"]
+    multiplier_delta = share_delta = None
     if baseline is not None:
-        prominence_delta = f"{prominence - baseline['prominence']:+.2f}x"
-        on_target_delta = f"{(on_target - baseline['on_target_salience']) * 100:+.1f} pts"
+        multiplier_delta = f"{multiplier - baseline['attention_multiplier']:+.2f}x"
+        share_delta = f"{(share - baseline['attention_share']) * 100:+.1f} pts"
 
     left, right = st.columns(2)
     left.metric(
-        "Prominence",
-        f"{prominence:.2f}x",
-        delta=prominence_delta,
+        "Attention Multiplier",
+        f"{multiplier:.2f}x",
+        delta=multiplier_delta,
         help="Attention per pixel vs. this image's average. Above 1.0x beats average.",
     )
     right.metric(
-        "On-target salience",
-        f"{on_target:.1%}",
-        delta=on_target_delta,
+        "Attention Share",
+        f"{share:.1%}",
+        delta=share_delta,
         help="Share of this image's total attention landing in the box.",
     )
 

@@ -56,15 +56,15 @@ def main():
         sys.exit(f"request failed with {response.status_code}: {response.text}")
 
     payload = response.json()
-    missing = {"overlay_png_base64", "prominence", "on_target_salience"} - payload.keys()
+    missing = {"overlay_png_base64", "attention_multiplier", "attention_share"} - payload.keys()
     if missing:
         sys.exit(f"response is missing fields: {sorted(missing)}")
 
     print(f"style:               {args.style}")
     print(f"box:                 ({x0}, {y0}, {x1}, {y1})")
-    print(f"prominence:          {payload['prominence']:.4f}")
-    print(f"on_target_salience:  {payload['on_target_salience']:.4f}")
-    print(f"background salience: {1.0 - payload['on_target_salience']:.4f}")
+    print(f"attention multiplier: {payload['attention_multiplier']:.4f}")
+    print(f"attention share:      {payload['attention_share']:.4f}")
+    print(f"rest-of-image share:  {1.0 - payload['attention_share']:.4f}")
 
     overlay = base64.b64decode(payload["overlay_png_base64"])
     if not overlay.startswith(b"\x89PNG"):

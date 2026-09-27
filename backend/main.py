@@ -12,7 +12,7 @@ from fastapi.responses import Response
 from PIL import Image, UnidentifiedImageError
 
 from backend.heatmap import make_glow_overlay, make_overlay
-from backend.metrics import compute_on_target_salience, compute_prominence
+from backend.metrics import compute_attention_multiplier, compute_attention_share
 from backend.model import SaliencyModel
 
 OVERLAY_STYLES = {"jet": make_overlay, "glow": make_glow_overlay}
@@ -85,11 +85,11 @@ async def predict(
     log_density = density_for(raw, frame)
 
     box = (x0, y0, x1, y1)
-    prominence = on_target_salience = None
+    attention_multiplier = attention_share = None
     if all(coordinate is not None for coordinate in box):
         try:
-            prominence = compute_prominence(log_density, box)
-            on_target_salience = compute_on_target_salience(log_density, box)
+            attention_multiplier = compute_attention_multiplier(log_density, box)
+            attention_share = compute_attention_share(log_density, box)
         except ValueError as error:
             raise HTTPException(status_code=400, detail=str(error))
     elif any(coordinate is not None for coordinate in box):
@@ -97,8 +97,8 @@ async def predict(
 
     return {
         "overlay_png_base64": base64.b64encode(encode_overlay(log_density, frame, style)).decode("ascii"),
-        "prominence": prominence,
-        "on_target_salience": on_target_salience,
+        "attention_multiplier": attention_multiplier,
+        "attention_share": attention_share,
     }
 
 

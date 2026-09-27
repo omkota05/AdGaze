@@ -3,7 +3,7 @@ import numpy as np
 from backend.arrays import as_2d_array, clip_box
 
 
-def compute_prominence(log_density, box, image_shape=None):
+def compute_attention_multiplier(log_density, box, image_shape=None):
     """Mean predicted attention inside the box relative to the image average.
 
     Above 1.0 means the region draws more attention than an average region of
@@ -15,7 +15,7 @@ def compute_prominence(log_density, box, image_shape=None):
     return float(density[y0:y1, x0:x1].mean() / density.mean())
 
 
-def compute_on_target_salience(log_density, box, image_shape=None):
+def compute_attention_share(log_density, box, image_shape=None):
     """Fraction of the total predicted attention that lands inside the box.
 
     Result is between 0 and 1.
