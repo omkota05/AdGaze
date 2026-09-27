@@ -5,3 +5,6 @@ DeepGaze/
 *.npy
 overlay_output.png
 overlay_output_*.png
+.DS_Store
+test_images/*
+!test_images/test_image.jpg

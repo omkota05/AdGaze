@@ -19,7 +19,7 @@ URL = "http://127.0.0.1:8000/predict"
 
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("image", nargs="?", default="test_image.jpg")
+    parser.add_argument("image", nargs="?", default="test_images/test_image.jpg")
     parser.add_argument("box", nargs="*", type=int, default=[100, 100, 300, 300])
     parser.add_argument("--style", choices=["jet", "glow"], default="jet", help="overlay style")
     parser.add_argument("--no-open", action="store_true", help="skip opening the saved overlay")

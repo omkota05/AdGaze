@@ -17,7 +17,7 @@ if not os.path.exists(centerbias_path):
     urllib.request.urlretrieve(url, centerbias_path)
 
 # Drop any jpg/png into this folder and point to it here
-image = np.array(Image.open('test_image.jpg').convert('RGB'))
+image = np.array(Image.open('test_images/test_image.jpg').convert('RGB'))
 
 model = deepgaze_pytorch.DeepGazeIIE(pretrained=True).to(DEVICE)
 
