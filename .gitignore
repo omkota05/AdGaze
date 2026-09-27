@@ -7,6 +7,6 @@ overlay_output.png
 overlay_output_*.png
 .DS_Store
 test_images/*
-!test_images/test_image.jpg
+!test_images/test_image.png
 test_images_compare/*.png
 !test_images_compare/test_image_compare.png

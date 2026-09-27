@@ -14,7 +14,7 @@ from backend.model import SaliencyModel
 
 pytestmark = pytest.mark.slow
 
-TEST_IMAGE = "test_images/test_image.jpg"
+TEST_IMAGE = "test_images/test_image.png"
 
 
 @pytest.fixture(scope="module")

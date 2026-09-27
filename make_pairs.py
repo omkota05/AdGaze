@@ -12,7 +12,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageEnhance
 
-SOURCE = Path("test_images/test_image.jpg")
+SOURCE = Path("test_images/test_image.png")
 OUTPUT_DIR = Path("test_images_compare")
 
 # the Nike swoosh and "Just do it." call to action, in SOURCE's pixels

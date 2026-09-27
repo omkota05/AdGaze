@@ -259,7 +259,7 @@ Multipart upload. Returns JSON.
 
 ```bash
 curl -X POST "http://127.0.0.1:8000/predict?style=glow" \
-  -F "image=@test_images/test_image.jpg" \
+  -F "image=@test_images/test_image.png" \
   -F x0=320 -F y0=340 -F x1=540 -F y1=560
 ```
 
@@ -283,7 +283,7 @@ browser with no decoding step.
 
 ```bash
 curl -X POST "http://127.0.0.1:8000/overlay?style=glow" \
-  -F "image=@test_images/test_image.jpg" -o overlay.png
+  -F "image=@test_images/test_image.png" -o overlay.png
 ```
 
 ### `GET /health`
@@ -306,7 +306,7 @@ iterating on box placement practical.
 
 ```bash
 venv/bin/python test_predict.py                                    # defaults
-venv/bin/python test_predict.py test_images/test_image.jpg 320 340 540 560 --style glow
+venv/bin/python test_predict.py test_images/test_image.png 320 340 540 560 --style glow
 ```
 
 Prints both metrics, saves `overlay_output_<style>.png`, and opens it in your
@@ -387,7 +387,7 @@ Things that will silently invalidate a comparison, learned the hard way:
 
 ## Reference values
 
-For `test_images/test_image.jpg` (1112x1454), useful for verifying a fresh setup:
+For `test_images/test_image.png` (1112x1454), useful for verifying a fresh setup:
 
 | Region | Box (x0, y0, x1, y1) | Multiplier | Share |
 |---|---|---|---|
