@@ -10,3 +10,4 @@ test_images/*
 !test_images/test_image.png
 test_images_compare/*.png
 !test_images_compare/test_image_compare.png
+data/

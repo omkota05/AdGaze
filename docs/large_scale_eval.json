@@ -1,0 +1,395 @@
+{
+  "dataset": "CAT2000 train (public, 18 observers)",
+  "device": "mps",
+  "benchmark": {
+    "overall": {
+      "n": 1000,
+      "auc": 0.8575311537906473,
+      "nss": 1.9015623431981592,
+      "cc": 0.7261400161300863,
+      "center_auc": 0.833262829138373,
+      "center_nss": 1.7392973449639968,
+      "center_cc": 0.6850114259280001,
+      "beats_center": 0.732
+    },
+    "per_category": {
+      "Action": {
+        "n": 50,
+        "auc": 0.8780019965540106,
+        "nss": 2.3316962945877746,
+        "cc": 0.7999965059794356,
+        "center_auc": 0.8311217105857278,
+        "center_nss": 1.6915944009797783,
+        "center_cc": 0.6277064597982173,
+        "beats_center": 0.9
+      },
+      "Affective": {
+        "n": 50,
+        "auc": 0.8769482740912972,
+        "nss": 2.425332443834804,
+        "cc": 0.8135077618582877,
+        "center_auc": 0.8214734276598876,
+        "center_nss": 1.6342245609755386,
+        "center_cc": 0.5921928738322482,
+        "beats_center": 0.9
+      },
+      "Art": {
+        "n": 50,
+        "auc": 0.8506211169027417,
+        "nss": 1.8315194324383017,
+        "cc": 0.7212164808709057,
+        "center_auc": 0.8257858514626203,
+        "center_nss": 1.6771523448091747,
+        "center_cc": 0.6885461142785626,
+        "beats_center": 0.76
+      },
+      "BlackWhite": {
+        "n": 50,
+        "auc": 0.8776477860647813,
+        "nss": 2.1855298715560636,
+        "cc": 0.7403617246776705,
+        "center_auc": 0.8505237316429413,
+        "center_nss": 1.879375403094587,
+        "center_cc": 0.6651341557982049,
+        "beats_center": 0.78
+      },
+      "Cartoon": {
+        "n": 50,
+        "auc": 0.8407661455128137,
+        "nss": 1.837169736745349,
+        "cc": 0.742534628686905,
+        "center_auc": 0.8092825137031088,
+        "center_nss": 1.5186604771809806,
+        "center_cc": 0.643253046320637,
+        "beats_center": 0.84
+      },
+      "Fractal": {
+        "n": 50,
+        "auc": 0.8700953254161127,
+        "nss": 2.059589576831401,
+        "cc": 0.755758825841641,
+        "center_auc": 0.8558006213643388,
+        "center_nss": 1.9496786297384556,
+        "center_cc": 0.7331572838889135,
+        "beats_center": 0.72
+      },
+      "Indoor": {
+        "n": 50,
+        "auc": 0.8407630346920898,
+        "nss": 1.6353410700517608,
+        "cc": 0.7521263220091463,
+        "center_auc": 0.8058582489666318,
+        "center_nss": 1.4882556628593073,
+        "center_cc": 0.6973269385465253,
+        "beats_center": 0.88
+      },
+      "Inverted": {
+        "n": 50,
+        "auc": 0.8367767814757232,
+        "nss": 1.6172878945510554,
+        "cc": 0.7014676562980066,
+        "center_auc": 0.8144228275433423,
+        "center_nss": 1.6028031836857253,
+        "center_cc": 0.7059703985612942,
+        "beats_center": 0.8
+      },
+      "Jumbled": {
+        "n": 50,
+        "auc": 0.8255281610917621,
+        "nss": 1.3501458776514839,
+        "cc": 0.6931025388023028,
+        "center_auc": 0.7887062284450728,
+        "center_nss": 1.3706437107114722,
+        "center_cc": 0.6991484344324711,
+        "beats_center": 0.92
+      },
+      "LineDrawing": {
+        "n": 50,
+        "auc": 0.8398101507452815,
+        "nss": 1.5612380047240024,
+        "cc": 0.67365466813193,
+        "center_auc": 0.8324187594722978,
+        "center_nss": 1.7019988386718115,
+        "center_cc": 0.7134852909956425,
+        "beats_center": 0.52
+      },
+      "LowResolution": {
+        "n": 50,
+        "auc": 0.8652781664299043,
+        "nss": 1.830145181037115,
+        "cc": 0.6388326431371673,
+        "center_auc": 0.8793568708733956,
+        "center_nss": 2.183887774148178,
+        "center_cc": 0.729618574973948,
+        "beats_center": 0.26
+      },
+      "Noisy": {
+        "n": 50,
+        "auc": 0.8590415119665957,
+        "nss": 1.8818197197004778,
+        "cc": 0.6891617283764516,
+        "center_auc": 0.8522352770409769,
+        "center_nss": 1.932038765048763,
+        "center_cc": 0.7193797873814367,
+        "beats_center": 0.58
+      },
+      "Object": {
+        "n": 50,
+        "auc": 0.8770835353984181,
+        "nss": 2.1385930806677247,
+        "cc": 0.7539695607215582,
+        "center_auc": 0.833509014196149,
+        "center_nss": 1.8072237941384126,
+        "center_cc": 0.6740283530074371,
+        "beats_center": 0.88
+      },
+      "OutdoorManMade": {
+        "n": 50,
+        "auc": 0.8554725537026564,
+        "nss": 1.9234542611331487,
+        "cc": 0.7736721502003663,
+        "center_auc": 0.8314323379449903,
+        "center_nss": 1.6762874775652028,
+        "center_cc": 0.7019092824388163,
+        "beats_center": 0.84
+      },
+      "OutdoorNatural": {
+        "n": 50,
+        "auc": 0.8449347350597765,
+        "nss": 1.7575738911405994,
+        "cc": 0.7136296796106788,
+        "center_auc": 0.8309645640350877,
+        "center_nss": 1.712012936024783,
+        "center_cc": 0.7164918626104989,
+        "beats_center": 0.58
+      },
+      "Pattern": {
+        "n": 50,
+        "auc": 0.8516704632025541,
+        "nss": 1.6630089865175592,
+        "cc": 0.6349215627452302,
+        "center_auc": 0.8576050262058503,
+        "center_nss": 1.9679515446912603,
+        "center_cc": 0.7192197084797588,
+        "beats_center": 0.38
+      },
+      "Random": {
+        "n": 50,
+        "auc": 0.8760872957976378,
+        "nss": 1.9293206194221488,
+        "cc": 0.6873178373326997,
+        "center_auc": 0.8251073621962657,
+        "center_nss": 1.7059586422169901,
+        "center_cc": 0.6320821602194148,
+        "beats_center": 0.9
+      },
+      "Satelite": {
+        "n": 50,
+        "auc": 0.8028951527308534,
+        "nss": 1.3790822202998276,
+        "cc": 0.6374157388425282,
+        "center_auc": 0.808597005008399,
+        "center_nss": 1.5832688453482382,
+        "center_cc": 0.726878328527546,
+        "beats_center": 0.46
+      },
+      "Sketch": {
+        "n": 50,
+        "auc": 0.9131852721490286,
+        "nss": 2.619325292344862,
+        "cc": 0.7966898694566987,
+        "center_auc": 0.8955445840260599,
+        "center_nss": 2.2374306699968427,
+        "center_cc": 0.6920967057512517,
+        "beats_center": 0.74
+      },
+      "Social": {
+        "n": 50,
+        "auc": 0.8680156168289044,
+        "nss": 2.074073408727723,
+        "cc": 0.8034624390221157,
+        "center_auc": 0.8155106203943184,
+        "center_nss": 1.4654992373944358,
+        "center_cc": 0.6226027587171764,
+        "beats_center": 1.0
+      }
+    },
+    "published_cat2000_test": {
+      "auc": 0.8692,
+      "nss": 2.1122,
+      "cc": 0.8189
+    },
+    "latency": {
+      "mean_s": 2.4080006155967713,
+      "median_s": 2.382940888404846,
+      "images_per_hour": 1495.0162291000152
+    }
+  },
+  "attention_share": {
+    "regions": 10000,
+    "boxes_per_image": 10,
+    "near_tie_threshold": 0.1,
+    "pairwise": {
+      "model": {
+        "correct": 33716,
+        "compared": 39220,
+        "accuracy": 0.8596634370219276
+      },
+      "center": {
+        "correct": 31897,
+        "compared": 39220,
+        "accuracy": 0.8132840387557368
+      }
+    },
+    "position_tied_pairs": {
+      "correct": 2026,
+      "compared": 2658,
+      "model_accuracy": 0.7622272385252069,
+      "center_accuracy": 0.5594431903686983
+    },
+    "error_reduction_vs_center": 0.24839546633893217,
+    "top_pick": {
+      "images": 1000,
+      "model_accuracy": 0.609,
+      "center_accuracy": 0.599,
+      "chance": 0.1
+    },
+    "correlation_all": {
+      "model": {
+        "pearson": 0.8948265230196569,
+        "spearman": 0.902632719103499
+      },
+      "center": {
+        "pearson": 0.8524298252924859,
+        "spearman": 0.8366433292751564
+      }
+    },
+    "correlation_by_size": {
+      "10% box": {
+        "regions": 3340,
+        "model": {
+          "pearson": 0.7154724251664231,
+          "spearman": 0.7459410690122137
+        },
+        "center": {
+          "pearson": 0.6714745561650312,
+          "spearman": 0.6455008841691455
+        }
+      },
+      "20% box": {
+        "regions": 3330,
+        "model": {
+          "pearson": 0.8208546212366261,
+          "spearman": 0.854082851330381
+        },
+        "center": {
+          "pearson": 0.7782452641690791,
+          "spearman": 0.7180328799998236
+        }
+      },
+      "30% box": {
+        "regions": 3330,
+        "model": {
+          "pearson": 0.8736244717089289,
+          "spearman": 0.8773100233803471
+        },
+        "center": {
+          "pearson": 0.8328540782932153,
+          "spearman": 0.7950203461786751
+        }
+      }
+    }
+  },
+  "occlusion": {
+    "per_category": {
+      "Action": {
+        "dropped": 10,
+        "n": 10
+      },
+      "Affective": {
+        "dropped": 9,
+        "n": 10
+      },
+      "Art": {
+        "dropped": 9,
+        "n": 10
+      },
+      "BlackWhite": {
+        "dropped": 6,
+        "n": 10
+      },
+      "Cartoon": {
+        "dropped": 9,
+        "n": 10
+      },
+      "Fractal": {
+        "dropped": 8,
+        "n": 10
+      },
+      "Indoor": {
+        "dropped": 8,
+        "n": 10
+      },
+      "Inverted": {
+        "dropped": 10,
+        "n": 10
+      },
+      "Jumbled": {
+        "dropped": 10,
+        "n": 10
+      },
+      "LineDrawing": {
+        "dropped": 9,
+        "n": 10
+      },
+      "LowResolution": {
+        "dropped": 7,
+        "n": 10
+      },
+      "Noisy": {
+        "dropped": 4,
+        "n": 10
+      },
+      "Object": {
+        "dropped": 9,
+        "n": 10
+      },
+      "OutdoorManMade": {
+        "dropped": 8,
+        "n": 10
+      },
+      "OutdoorNatural": {
+        "dropped": 4,
+        "n": 10
+      },
+      "Pattern": {
+        "dropped": 6,
+        "n": 10
+      },
+      "Random": {
+        "dropped": 7,
+        "n": 10
+      },
+      "Satelite": {
+        "dropped": 7,
+        "n": 10
+      },
+      "Sketch": {
+        "dropped": 10,
+        "n": 10
+      },
+      "Social": {
+        "dropped": 10,
+        "n": 10
+      }
+    },
+    "n": 200,
+    "dropped": 160,
+    "dropped_fraction": 0.8,
+    "mean_multiplier_change": -3.7610849938393267,
+    "median_relative_change": -0.32223882709645946,
+    "mean_share_change_pts": -4.916109552132577,
+    "control_mean_multiplier_change": 0.012574551700644573,
+    "control_median_relative_change": 6.420747233670809e-06
+  }
+}

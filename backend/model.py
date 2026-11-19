@@ -24,7 +24,12 @@ class SaliencyModel:
             urllib.request.urlretrieve(CENTERBIAS_URL, centerbias_path)
 
         self.centerbias_template = np.load(centerbias_path)
-        self.model = deepgaze_pytorch.DeepGazeIIE(pretrained=True).to(device)
+        model = deepgaze_pytorch.DeepGazeIIE(pretrained=True)
+        if device != "cpu":
+            # MPS has no float64, and DeepGaze ships a float64 buffer. CPU keeps
+            # it so existing CPU outputs stay bit-identical.
+            model = model.float()
+        self.model = model.to(device)
         self.model.eval()
 
     def _centerbias_for(self, height, width):
